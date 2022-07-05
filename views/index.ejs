@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <title>Login - Cadastro</title>
+</head>
+
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        width: 100vw;
+        height: 100vh;
+
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+
+        background-color: aliceblue;
+    }
+
+    .login {
+        width: 30%;
+        height: 35%;
+
+        padding: 20px 40px;
+
+        display: flex;
+        flex-direction: column;
+
+        text-align: center;
+
+        background-color: white;
+        border-radius: 10px;
+    }
+
+    .cadastro {
+        width: 35%;
+        height: 54%;
+
+        padding: 20px 40px;
+
+        display: flex;
+        flex-direction: column;
+
+        text-align: center;
+
+        background-color: white;
+        border-radius: 10px;
+    }
+
+    .errorToast {
+        background-color: #ef5350;
+    }
+
+    .successToast {
+        background-color: #66bb6a;
+    }
+
+    input {
+        border-bottom: 1px solid black !important;
+    }
+
+    .active {
+        color: black !important
+    }
+</style>
+
+<script>
+    function login() {
+        let email = document.getElementById('email-login')?.value
+        let senha = document.getElementById('senha-login')?.value
+
+        let request = {
+            email: email,
+            senha: senha
+        }
+
+        let result = validarLogin(request)
+
+        if (result.isValid) {
+            $.ajax({
+                url: "http://localhost:3000/login",
+                method: "POST",
+                success(res) {
+                    showToast('Login realizado com sucesso!', false)
+                },
+                error(err) {
+                    console.log(err)
+                },
+            });
+        } else {
+            result.mensagem.forEach(mensagem => {
+                showToast(mensagem, true)
+            });
+        }
+    }
+
+    function validarLogin(request) {
+        let result = {
+            isValid: true,
+            mensagem: []
+        };
+
+        if (!request.email)
+            result.mensagem.push('Campo Email obrigatório!');
+
+        if (!request.senha)
+            result.mensagem.push('Campo Senha obrigatório!')
+
+        if (result.mensagem.length != 0)
+            result.isValid = false
+
+        return result
+    }
+
+    const cadastrar = () => {
+        let email = document.getElementById('email')?.value
+        let docFederal = document.getElementById('docFederal')?.value
+        let senha = document.getElementById('senha')?.value
+        let confSenha = document.getElementById('confSenha')?.value
+
+        let request = {
+            email: email,
+            docFederal: docFederal,
+            senha: senha,
+            confSenha: confSenha
+        }
+
+        let result = validarCadastro(request)
+
+        if (result.isValid) {
+            $.ajax({
+                url: "http://localhost:3000/cadastrar",
+                method: "POST",
+                success(res) {
+                    showToast('Cadastro realizado com sucesso!', false)
+                },
+                error(err) {
+                    console.log(err)
+                },
+            });
+        } else {
+            result.mensagem.forEach(mensagem => {
+                showToast(mensagem, true)
+            });
+        }
+    };
+
+    function validarCadastro(request) {
+        let result = {
+            isValid: true,
+            mensagem: []
+        };
+
+        if (!request.email)
+            result.mensagem.push('Campo Email obrigatório!');
+
+        if (!request.docFederal)
+            result.mensagem.push('Campo Documento Federal obrigatório!')
+
+        if (!request.senha)
+            result.mensagem.push('Campo Senha obrigatório!')
+
+        if (!request.confSenha)
+            result.mensagem.push('Obrigatório confirmar senha!')
+
+        if (request.senha != request.confSenha)
+            result.mensagem.push('As senhas não são iguais.')
+
+        if (result.mensagem.length != 0)
+            result.isValid = false
+
+        return result
+    }
+
+    function showToast(message, isError) {
+        M.toast({ html: message, classes: `rounded ${isError ? 'errorToast' : 'successToast'}` });
+    }
+
+</script>
+
+<body>
+    <div class="login z-depth-5">
+        <h3>Login</h3>
+
+        <div>
+            <div class="input-field col s6">
+                <input id="email-login" type="text" class="validate">
+                <label for="email-login">Email</label>
+            </div>
+            <div class="input-field col s12">
+                <input id="senha-login" type="password" class="validate">
+                <label for="senha-login">Senha</label>
+            </div>
+        </div>
+
+        <button class="btn waves-effect waves-light blue lighten-1" type="submit" name="action" onclick="login()">Entrar
+            <i class="material-icons right">login</i>
+        </button>
+    </div>
+
+
+    <div class="cadastro z-depth-5">
+        <h3>Cadastro</h3>
+        <div class="input-field col s6">
+            <input id="email" type="text" class="validate" name="email">
+            <label for="email">Email</label>
+        </div>
+
+        <div class="input-field col s6">
+            <input id="docFederal" type="text" class="validate">
+            <label for="docFederal">Documento federal</label>
+        </div>
+
+        <div class="input-field col s12">
+            <input id="senha" type="password" class="validate">
+            <label for="senha">Senha</label>
+        </div>
+
+        <div class="input-field col s12">
+            <input id="confSenha" type="password" class="validate">
+            <label for="confSenha">Confirmar senha</label>
+        </div>
+
+        <button class="btn waves-effect waves-light blue lighten-1" type="submit" name="action"
+            onclick="cadastrar()">Cadastrar
+            <i class="material-icons right">login</i>
+        </button>
+    </div>
+
+</body>
+
+</html>

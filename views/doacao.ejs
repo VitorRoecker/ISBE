@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <title>Login - Cadastro</title>
+</head>
+
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        width: 100vw;
+        height: 100vh;
+
+        display: flex;
+        flex-direction: column;
+
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container {
+        width: 100%;
+        height: 90%;
+
+        display: flex;
+    }
+
+    .container-dados {
+        width: 70%;
+        height: 90%;
+
+        padding: 20px 40px;
+    }
+
+    .container-planos {
+        width: 30%;
+        height: 90%;
+
+        margin-left: 50px;
+
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    .plano {
+        width: 85%;
+        height: 20%;
+
+        padding: 20px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    input {
+        border-bottom: 1px solid black !important;
+    }
+
+    .active {
+        color: black !important
+    }
+
+    h4 {
+        margin: 0;
+    }
+
+    .plano-active {
+        border: 2px solid #66bb6a;
+    }
+
+    .dropdown-content li>a,
+    .dropdown-content li>span {
+        color: black;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('select').formSelect();
+    });
+
+    $(document).ready(function () {
+        $('.modal').modal();
+    });
+
+    function changePlano() {
+        resetCssPlanos()
+
+        let plano = document.getElementById('plano')
+
+        let divPlano = document.getElementById(plano.value)
+
+        divPlano.classList.add('plano-active')
+    }
+
+    function resetCssPlanos() {
+        document.getElementById('1')?.classList.remove('plano-active')
+        document.getElementById('2')?.classList.remove('plano-active')
+        document.getElementById('3')?.classList.remove('plano-active')
+        document.getElementById('4')?.classList.remove('plano-active')
+    }
+
+    function assinar() {
+
+    }
+</script>
+
+<body>
+    <h1>Adote um time</h1>
+    <div class="container">
+        <div class="container-dados z-depth-5">
+            <h5>Informações de pagamento</h5>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="nome" type="text" class="validate" name="nome">
+                    <label for="nome">Nome</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="numeroCartao" type="text" class="validate" name="numeroCartao">
+                    <label for="numeroCartao">Numero do Cartão</label>
+                </div>
+                <div class="input-field col s4">
+                    <input id="validoAte" type="text" class="validate" name="validoAte">
+                    <label for="validoAte">Válido até</label>
+                </div>
+                <div class="input-field col s2">
+                    <input id="cvv" type="text" class="validate" name="cvv">
+                    <label for="cvv">CVV</label>
+                </div>
+            </div>
+
+            <h5>Informações de assinatura</h5>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="nomeEmpresa" type="text" class="validate" name="nomeEmpresa">
+                    <label for="nomeEmpresa">Nome da empresa</label>
+                </div>
+                <div class="input-field col s6">
+                    <select id="plano" onchange="changePlano()">
+                        <option value="" disabled selected>Escolha uma opção</option>
+                        <option value="1">Plano 1</option>
+                        <option value="2">Plano 2</option>
+                        <option value="3">Plano 3</option>
+                        <option value="4">Plano 4</option>
+                    </select>
+                    <label>Plano</label>
+                </div>
+            </div>
+
+            <div class="row center-align">
+                <button class="btn waves-effect waves-light blue lighten-1" name="action" onclick="assinar()">Assinar
+                </button>
+            </div>
+        </div>
+
+        <div class="container-planos z-depth-5">
+            <div class="plano z-depth-1" id="1">
+                <div>
+                    <h4>Plano 1</h4>
+                    <h6>R$ 39,99</h6>
+                </div>
+                <a class="btn-floating blue lighten-1 modal-trigger" href="#modal1"><i
+                        class="material-icons">info_outline</i></a>
+            </div>
+
+            <div class="plano z-depth-1" id="2">
+                <div>
+                    <h4>Plano 2</h4>
+                    <h6>R$ 39,99</h6>
+                </div>
+                <a class="btn-floating blue lighten-1 modal-trigger" href="#modal2"><i
+                        class="material-icons">info_outline</i></a>
+            </div>
+
+            <div class="plano z-depth-1" id="3">
+                <div>
+                    <h4>Plano 3</h4>
+                    <h6>R$ 39,99</h6>
+                </div>
+                <a class="btn-floating blue lighten-1 modal-trigger" href="#modal3"><i
+                        class="material-icons">info_outline</i></a>
+            </div>
+
+            <div class="plano z-depth-1" id="4">
+                <div>
+                    <h4>Plano 4</h4>
+                    <h6>R$ 39,99</h6>
+                </div>
+                <a class="btn-floating blue lighten-1 modal-trigger" href="#modal4"><i
+                        class="material-icons">info_outline</i></a>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Plano 1</h4>
+            <p>Beneficios</p>
+        </div>
+    </div>
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <h4>Plano 2</h4>
+            <p>Beneficios</p>
+        </div>
+    </div>
+    <div id="modal3" class="modal">
+        <div class="modal-content">
+            <h4>Plano 3</h4>
+            <p>Beneficios</p>
+        </div>
+    </div>
+    <div id="modal4" class="modal">
+        <div class="modal-content">
+            <h4>Plano 4</h4>
+            <p>Beneficios</p>
+        </div>
+    </div>
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
