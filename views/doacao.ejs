@@ -58,12 +58,13 @@
         flex-direction: column;
 
         align-items: center;
-        justify-content: space-evenly;
+
+        overflow-y: scroll;
     }
 
     .plano {
         width: 85%;
-        height: 20%;
+        height: 130px;
 
         padding: 20px;
 
@@ -71,6 +72,8 @@
 
         align-items: center;
         justify-content: space-around;
+
+        margin-top: 25px;
     }
 
     input {
@@ -115,6 +118,7 @@
     }
 
     function resetCssPlanos() {
+        console.log(this)
         document.getElementById('1')?.classList.remove('plano-active')
         document.getElementById('2')?.classList.remove('plano-active')
         document.getElementById('3')?.classList.remove('plano-active')
@@ -161,10 +165,11 @@
                 <div class="input-field col s6">
                     <select id="plano" onchange="changePlano()">
                         <option value="" disabled selected>Escolha uma opção</option>
-                        <option value="1">Plano 1</option>
-                        <option value="2">Plano 2</option>
-                        <option value="3">Plano 3</option>
-                        <option value="4">Plano 4</option>
+                        <% planos.forEach(function(plano){ %>
+                            <option value="<%= plano.Id %>">
+                                <%= plano.Nome %>
+                            </option>
+                            <% }) %>
                     </select>
                     <label>Plano</label>
                 </div>
@@ -177,68 +182,36 @@
         </div>
 
         <div class="container-planos z-depth-5">
-            <div class="plano z-depth-1" id="1">
-                <div>
-                    <h4>Plano 1</h4>
-                    <h6>R$ 39,99</h6>
+            <% planos.forEach(function(plano){ %>
+                <div class="plano z-depth-1" id="<%= plano.Id %>">
+                    <div>
+                        <h5>
+                            <%= plano.Nome %>
+                        </h5>
+                        <h6>
+                            R$ <%= plano.ValorParcela %>,00
+                        </h6>
+                    </div>
+                    <a class="btn-floating blue lighten-1 modal-trigger" href="#modal<%= plano.Id %>"><i
+                            class="material-icons">info_outline</i></a>
                 </div>
-                <a class="btn-floating blue lighten-1 modal-trigger" href="#modal1"><i
-                        class="material-icons">info_outline</i></a>
-            </div>
-
-            <div class="plano z-depth-1" id="2">
-                <div>
-                    <h4>Plano 2</h4>
-                    <h6>R$ 39,99</h6>
-                </div>
-                <a class="btn-floating blue lighten-1 modal-trigger" href="#modal2"><i
-                        class="material-icons">info_outline</i></a>
-            </div>
-
-            <div class="plano z-depth-1" id="3">
-                <div>
-                    <h4>Plano 3</h4>
-                    <h6>R$ 39,99</h6>
-                </div>
-                <a class="btn-floating blue lighten-1 modal-trigger" href="#modal3"><i
-                        class="material-icons">info_outline</i></a>
-            </div>
-
-            <div class="plano z-depth-1" id="4">
-                <div>
-                    <h4>Plano 4</h4>
-                    <h6>R$ 39,99</h6>
-                </div>
-                <a class="btn-floating blue lighten-1 modal-trigger" href="#modal4"><i
-                        class="material-icons">info_outline</i></a>
-            </div>
+                <% }) %>
         </div>
     </div>
 
-    <div id="modal1" class="modal">
-        <div class="modal-content">
-            <h4>Plano 1</h4>
-            <p>Beneficios</p>
+    <% planos.forEach(function(plano){ %>
+        <div id="modal<%= plano.Id %>" class="modal">
+            <div class="modal-content">
+                <h5>
+                    <%= plano.Nome %>
+                </h5>
+                <h6>
+                    R$ <%= plano.ValorParcela %>,00
+                </h6>
+                <p>Beneficios</p>
+            </div>
         </div>
-    </div>
-    <div id="modal2" class="modal">
-        <div class="modal-content">
-            <h4>Plano 2</h4>
-            <p>Beneficios</p>
-        </div>
-    </div>
-    <div id="modal3" class="modal">
-        <div class="modal-content">
-            <h4>Plano 3</h4>
-            <p>Beneficios</p>
-        </div>
-    </div>
-    <div id="modal4" class="modal">
-        <div class="modal-content">
-            <h4>Plano 4</h4>
-            <p>Beneficios</p>
-        </div>
-    </div>
+        <% }) %>
 </body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
